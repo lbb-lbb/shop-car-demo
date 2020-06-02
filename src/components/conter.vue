@@ -8,7 +8,7 @@
             <img v-show="this.count===4" src="../assets/ads/4.jpg" alt="轮播图片">
             <img v-show="this.count===5" src="../assets/ads/5.jpg" alt="轮播图片">
             <ul>
-                <li @click="go(item)" @mouseover="stop()" @mouseout="start" v-for="item in this.items" :key="item">{{item}}</li>
+                <li @mouseover="go(index)" @mouseout="start" v-for="(item,index) in this.items" :key="index">{{item}}</li>
             </ul>
         </div>
         <div id="right">
@@ -26,14 +26,11 @@
             <div id="list">
                 <p>品牌活动</p>
                 <ul>
-                    <li>运动</li>
-                    <li>男鞋</li>
-                    <li>女鞋</li>
-                    <li>童鞋</li>
+                    <li @click="switchList(index)" v-for="(card,index) in cards" :key="index">{{card}}</li>
                 </ul>
             </div>
             <div id="card">
-                <ul>
+                <ul v-show="this.num===1">
                     <li><img src="../assets/upload/20120217.jpg" alt="耐克">
                         <p>耐克</p>
                     </li>
@@ -45,6 +42,48 @@
                     </li>
                     <li><img src="../assets/upload/20120220.png" alt="耐克">
                         <p>李宁 </p>
+                    </li>
+                </ul>
+                 <ul v-show="this.num===2">
+                    <li><img src="../assets/upload/20120218.jpg" alt="耐克">
+                        <p>阿迪达斯</p>
+                    </li>
+                     <li><img src="../assets/upload/20120217.jpg" alt="耐克">
+                        <p>耐克</p>
+                    </li>
+                    <li><img src="../assets/upload/20120220.png" alt="耐克">
+                        <p>李宁 </p>
+                    </li>
+                    <li><img src="../assets/upload/20120219.png" alt="耐克">
+                        <p>安踏</p>
+                    </li>
+                </ul>
+                <ul v-show="this.num===3">
+                    <li><img src="../assets/upload/20120218.jpg" alt="耐克">
+                        <p>阿迪达斯</p>
+                    </li>
+                    <li><img src="../assets/upload/20120219.png" alt="耐克">
+                        <p>安踏</p>
+                    </li>
+                     <li><img src="../assets/upload/20120217.jpg" alt="耐克">
+                        <p>耐克</p>
+                    </li>
+                    <li><img src="../assets/upload/20120220.png" alt="耐克">
+                        <p>李宁 </p>
+                    </li>
+                </ul>
+                 <ul v-show="this.num===4">
+                      <li><img src="../assets/upload/20120219.png" alt="耐克">
+                        <p>安踏</p>
+                    </li>
+                    <li><img src="../assets/upload/20120217.jpg" alt="耐克">
+                        <p>耐克</p>
+                    </li>
+                    <li><img src="../assets/upload/20120220.png" alt="耐克">
+                        <p>李宁 </p>
+                    </li>
+                     <li><img src="../assets/upload/20120218.jpg" alt="耐克">
+                        <p>阿迪达斯</p>
                     </li>
                 </ul>
             </div>
@@ -62,8 +101,10 @@
                 list: ['伊伴春鞋迎春大促', '千百度冬靴新品火热让利', 'COEY秋冬新品全场2.3折起',
                     '伊伴春鞋迎春大促a', '千百度冬靴新品火热让'
                 ],
+                cards:["运动","男鞋","女鞋","童鞋"], //卡片切换的顺序
                 count: 1, //控制轮播图的轮播顺序 
                 time:null,//轮播图的定时器
+                num:1,    //控制活动品牌切换的
             };
         },
         computed: {},
@@ -75,16 +116,17 @@
                     } else {
                         this.count = 1;
                     }
-                }, 5000);
+                }, 3000);
             },
-            stop(){
-               if(this.time){
+            go(item){
+                 if(this.time){
                     clearInterval(this.time)
                     this.time=null
                }
+               this.count=item+1
             },
-            go(item){
-               alert(item)
+            switchList(index){
+              this.num=index+1;
             }
         },
         mounted: function () {

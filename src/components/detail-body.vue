@@ -3,7 +3,21 @@
   <div id="content">
     <div id="left-content">
       <div id="big-img">
-        <img src="../assets/pro_img/blue_one_small.jpg" />
+        <div v-show="this.color==='蓝色'">
+          <img v-show="this.num===0" src="../assets/pro_img/blue_one_small.jpg" />
+          <img v-show="this.num===1" src="../assets/pro_img/blue_two_small.jpg" />
+          <img v-show="this.num===2" src="../assets/pro_img/blue_three_small.jpg" />
+        </div>
+        <div v-show="this.color==='黄色'">
+          <img v-show="this.num===0" src="../assets/pro_img/yellow_one_small.jpg" />
+          <img v-show="this.num===1" src="../assets/pro_img/yellow_two_small.jpg" />
+          <img v-show="this.num===2" src="../assets/pro_img/yellow_three_small.jpg" />
+        </div>
+        <div v-show="this.color==='绿色'">
+          <img v-show="this.num===0" src="../assets/pro_img/green_one_small.jpg" />
+          <img v-show="this.num===1" src="../assets/pro_img/green_two_small.jpg" />
+          <img v-show="this.num===2" src="../assets/pro_img/blue_three_small.jpg" />
+        </div>
       </div>
       <div>
         <div id="watch">
@@ -12,26 +26,26 @@
       </div>
       <div id="select-img">
         <template>
-          <div>
-            <img src="../assets/pro_img/blue_one.jpg" title="点击大图显示1" alt="1" />
-            <img src="../assets/pro_img/blue_two.jpg" title="点击大图显示2" alt="2" />
-            <img src="../assets/pro_img/blue_three.jpg" title="点击大图显示3" alt="3" />
+          <div v-show="this.color==='蓝色'">
+            <img src="../assets/pro_img/blue_one.jpg" title="点击大图显示" alt="0" />
+            <img src="../assets/pro_img/blue_two.jpg" title="点击大图显示" alt="1" />
+            <img src="../assets/pro_img/blue_three.jpg" title="点击大图显示" alt="2" />
           </div>
         </template>
-      <!--  <template>
-          <div >
-            <img src="../assets/pro_img/yellow_one.jpg" title="点击大图显示1" alt="1" />
-            <img src="../assets/pro_img/yellow_two.jpg" title="点击大图显示2" alt="2" />
-            <img src="../assets/pro_img/yellow_three.jpg" title="点击大图显示3" alt="3" />
+      <template>
+          <div v-show="this.color==='黄色'">
+            <img src="../assets/pro_img/yellow_one.jpg" title="点击大图显示" alt="0" />
+            <img src="../assets/pro_img/yellow_two.jpg" title="点击大图显示" alt="1" />
+            <img src="../assets/pro_img/yellow_three.jpg" title="点击大图显示" alt="2" />
           </div>
         </template>
         <template>
-          <div>
-            <img src="../assets/pro_img/green_one.jpg" title="点击大图显示1" alt="1" />
-            <img src="../assets/pro_img/green_two.jpg" title="点击大图显示2" alt="2" />
-            <img src="../assets/pro_img/green_one.jpg" title="点击大图显示3" alt="3" />
+          <div v-show="this.color==='绿色'">
+            <img src="../assets/pro_img/green_one.jpg" title="点击大图显示" alt="0" />
+            <img src="../assets/pro_img/green_two.jpg" title="点击大图显示" alt="1" />
+            <img src="../assets/pro_img/green_one.jpg" title="点击大图显示" alt="2" />
           </div>
-        </template>-->
+        </template>
       </div>
       <div id="select-card">
         <button>产品属性</button>
@@ -42,8 +56,8 @@
           使面料的抗皱性能更上一层。延续简约、 舒适、健康设计理念，
           特推出免烫、易打理的精细免烫牛津纺长袖衬衫系列。
         </p>
-        <p :class="{'none':card!=='产品尺码表'}">产品尺码表</p>
-        <p :class="{'none':card!=='产品介绍'}">产品介绍</p>
+        <p >产品尺码表</p>
+        <p >产品介绍</p>
       </div>
     </div>
     <div id="right-content">
@@ -55,11 +69,11 @@
       </p>
       <p>价 格：<span><strong><s></s></strong></span>元</p>
       <p>促 销：<span></span>元</p>
-      <p>颜 色：<span></span></p>
+      <p>颜 色：<span>{{color}}</span></p>
       <div id="select-color">
-        <img src="../assets/pro_img/blue.jpg" alt="1" />
-        <img src="../assets/pro_img/yellow.jpg" alt="2" />
-        <img src="../assets/pro_img/green.jpg" alt="3" />
+        <img @click="alert()" src="../assets/pro_img/blue.jpg" alt="蓝色" />
+        <img @click="alert()" src="../assets/pro_img/yellow.jpg" alt="黄色" />
+        <img @click="alert()" src="../assets/pro_img/green.jpg" alt="绿色" />
       </div>
       <p>尺 寸：<span></span></p>
       <div id="select-size">
@@ -69,7 +83,7 @@
         <button>XL</button>
       </div>
       <p>
-        数 量：<span><input type="number" placeholder="请输入购买数量" v-model="inputVal" /></span>
+        数 量：<span><input type="number" placeholder="请输入购买数量" /></span>
       </p>
       <p>总 计：<span></span>元</p>
       <p>给商品评分</p>
@@ -82,10 +96,19 @@
 export default {
         components: {},
         data() {
-            return {};
+            return {
+              switch:0,//切换颜色的数据
+              num:0,//大图的切换数据
+              color:'蓝色', //大图之间颜色的切换
+            };
           },
         computed: {},
-        methods: {},
+        methods: {
+          alert(e){   // eslint-disable-line no-unused-vars
+            e=event.target;
+            this.color=e.alt
+          }
+        },
         mounted() {}
 };
 </script>
