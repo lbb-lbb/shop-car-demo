@@ -26,41 +26,41 @@
       </div>
       <div id="select-img">
         <template>
-          <div v-show="this.color==='蓝色'">
+          <div v-show="this.color==='蓝色'" @click="switchs">
             <img src="../assets/pro_img/blue_one.jpg" title="点击大图显示" alt="0" />
             <img src="../assets/pro_img/blue_two.jpg" title="点击大图显示" alt="1" />
             <img src="../assets/pro_img/blue_three.jpg" title="点击大图显示" alt="2" />
           </div>
         </template>
       <template>
-          <div v-show="this.color==='黄色'">
+          <div v-show="this.color==='黄色'"  @click="switchs">
             <img src="../assets/pro_img/yellow_one.jpg" title="点击大图显示" alt="0" />
             <img src="../assets/pro_img/yellow_two.jpg" title="点击大图显示" alt="1" />
             <img src="../assets/pro_img/yellow_three.jpg" title="点击大图显示" alt="2" />
           </div>
         </template>
         <template>
-          <div v-show="this.color==='绿色'">
+          <div v-show="this.color==='绿色'"  @click="switchs">
             <img src="../assets/pro_img/green_one.jpg" title="点击大图显示" alt="0" />
             <img src="../assets/pro_img/green_two.jpg" title="点击大图显示" alt="1" />
             <img src="../assets/pro_img/green_one.jpg" title="点击大图显示" alt="2" />
           </div>
         </template>
       </div>
-      <div id="select-card">
-        <button>产品属性</button>
-        <button>产品尺码表</button>
-        <button>产品介绍</button>
-        <p>
+      <div id="select-card" @click="switchs">
+        <button  name="0">产品属性</button>
+        <button  name="1">产品尺码表</button>
+        <button  name="2">产品介绍</button>
+        <p v-show="this.card===0" >
           沿用风靡百年的经典全棉牛津纺面料，通过领先的液氨整理技术，
           使面料的抗皱性能更上一层。延续简约、 舒适、健康设计理念，
           特推出免烫、易打理的精细免烫牛津纺长袖衬衫系列。
         </p>
-        <p >产品尺码表</p>
-        <p >产品介绍</p>
+        <p v-show="this.card===1" >产品尺码表</p>
+        <p v-show="this.card===2" >产品介绍</p>
       </div>
     </div>
-    <div id="right-content">
+    <div id="right-content"> 
       <h2>免烫高支棉条纹衬衣</h2>
       <p>
         全新精品高支棉衬衫再次提升品质，精选100%新疆长绒棉织造而成，
@@ -97,16 +97,26 @@ export default {
         components: {},
         data() {
             return {
-              switch:0,//切换颜色的数据
               num:0,//大图的切换数据
               color:'蓝色', //大图之间颜色的切换
+              card:0, //切换产品表格的
             };
           },
         computed: {},
         methods: {
-          alert(e){   // eslint-disable-line no-unused-vars
+          alert(e){   
             e=event.target;
-            this.color=e.alt
+            this.color=e.alt;
+            this.num=0;
+          },
+          switchs(e){
+            e=e.target;
+            if(e.tagName.toLocaleLowerCase()==='img'){
+              this.num=parseInt(e.alt)
+            }
+            if(e.tagName.toLocaleLowerCase()==="button"){
+              this.card=parseInt(e.name)
+            }
           }
         },
         mounted() {}
@@ -219,7 +229,7 @@ export default {
 
   #shop-car {
     margin-left: 10px;
-    margin-top: 27px;
+    margin-top: 20px;
   }
 
   span {

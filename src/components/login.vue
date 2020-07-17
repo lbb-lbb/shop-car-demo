@@ -1,0 +1,83 @@
+<!-- 登陆与注册模块 -->
+<template>
+<div id="main">
+    <div id="login" v-if="type==='login'" @click="switchs">
+        <p>请输入您的账户密码以便登陆</p>
+        <input name="id" placeholder="请输入用户名" type="text"/>
+        <input name="password" placeholder="请输入密码" type="password"/>
+        <button name="sign">注册   </button>
+        <button name="login">登陆   </button>
+    </div>
+    <div id="sign" v-else-if="type==='sign'" @click="switchs">
+    <p>请输入以下信息以便注册</p>
+       <input name="id" placeholder="请输入用户名" type="text"/>
+       <input name="password" placeholder="请输入密码" type="password"/>
+       <input name="password2" placeholder="请输入密码" type="password"/>
+       <input name="password" placeholder="请输入邮箱" type="email"/>
+        <button name="login">登陆   </button>
+        <button name="sign" >注册   </button>
+    </div>
+</div>
+</template>
+<script>
+export default {
+        components: {},
+        data() {
+            return {
+                type:'login'
+            };
+          },
+        computed: {},
+        methods: {
+            switchs(e){
+                e=e.target;
+                if(e.tagName.toLocaleLowerCase()==="button"&&this.type!==e.name){
+                    this.type=e.name;
+                    return
+                }
+                if(e.tagName.toLocaleLowerCase()==="button"&&this.type===e.name){
+                    var user = {};
+                    if(this.type==='sign'){
+                        var inputs=document.querySelectorAll('input')
+                       user.name=inputs[0].value;
+                       user.password=inputs[1].value;
+                       user.email=inputs[3].value;
+                    }
+                }
+            },
+            
+
+        },
+        mounted() {}
+};
+</script>
+<style lang="scss" scoped>
+*{
+    margin: 0;
+    padding: 0;
+}
+p{
+    text-align: center;
+}
+#main{
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+input{
+    border: none;
+    width: 300px;
+    height: 40px;
+    margin: 0 50px;
+    margin-top: 20px;
+    background: rgba(68, 125, 199, 0.411);
+}
+button{
+    border: none;
+    width: 150px;
+    height: 40px;
+    margin: 0 20px;
+    margin-top: 20px;
+    background: rgba(68, 125, 199, 0.411);
+}
+</style>
