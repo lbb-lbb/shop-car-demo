@@ -6,7 +6,8 @@
         <input name="id" placeholder="请输入用户名" type="text"/>
         <input name="password" placeholder="请输入密码" type="password"/>
         <button name="sign">注册   </button>
-        <button name="login">登陆   </button>
+        <button name="login" class="bth">登陆   </button>
+        <p>没有账号？点击注册去注册一个账号吧</p>
     </div>
     <div id="sign" v-else-if="type==='sign'" @click="switchs">
     <p>请输入以下信息以便注册</p>
@@ -15,7 +16,8 @@
        <input name="password2" placeholder="请输入密码" type="password"/>
        <input name="password" placeholder="请输入邮箱" type="email"/>
         <button name="login">登陆   </button>
-        <button name="sign" >注册   </button>
+        <button name="sign" class="bth">注册   </button>
+        <p>已有账号？点击登陆去登陆账号吧</p>
     </div>
 </div>
 </template>
@@ -31,21 +33,52 @@ export default {
         methods: {
             switchs(e){
                 e=e.target;
-                if(e.tagName.toLocaleLowerCase()==="button"&&this.type!==e.name){
+                if(e.tagName.toLocaleLowerCase()==="button"&&this.type!==e.name){ //登陆和注册的切换逻辑
                     this.type=e.name;
                     return
                 }
-                if(e.tagName.toLocaleLowerCase()==="button"&&this.type===e.name){
+                if(e.tagName.toLocaleLowerCase()==="button"&&this.type===e.name){//提交登陆注册信息的逻辑
                     var user = {};
+                    var inputs=document.querySelectorAll('input')
                     if(this.type==='sign'){
-                        var inputs=document.querySelectorAll('input')
                        user.name=inputs[0].value;
                        user.password=inputs[1].value;
                        user.email=inputs[3].value;
+                       if(localStorage.getItem(user.name)){
+                           alert("该账户已经存在")
+                       }
+                       else{
+                           localStorage.setItem(user.name,JSON.stringify(user));
+                           alert("注册成功，将为您跳至登陆页面");
+                           this.type='login'
+                       }
+                    }
+                    else{
+                        if(!localStorage.getItem(inputs[0].value)){
+                            alert("该账户不存在")
+                        }
+                        else{
+                            var account=JSON.parse(localStorage.getItem(inputs[0].value));
+                            if(account.password==inputs[1].value){
+                                this.$router.push('/')
+                            }
+                            else{
+                                alert("密码错误")
+                            }
+                        }
                     }
                 }
             },
-            
+           /* test(input,bth){
+                 var names=document.querySelectorAll(name);
+                 if(this.type==='sign'){
+                    for(let i in names){
+                        if(names[i].value===''||names[i].value.indexOf(" ")==-1){
+                           document.querySelector('.'+bth).disabled=true
+                        }
+                    }
+                 }
+            }*/
 
         },
         mounted() {}

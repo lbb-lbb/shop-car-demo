@@ -5,19 +5,22 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user:null,
-      carGoods:{
-      price:null,
-      color:null,
-      size:null,
-      number:null,
-      money:null,
-      grade:null
-    },
-    goods:null
-
+    user: {
+      name:null,
+      carGoods: {
+        price: null,
+        color: null,
+        size: null,
+        number: null,
+        money: null,
+        grade: null
+      },
+      goods: null
+    }
   },
-  getters:{},
+  getters: {
+    user
+  },
   mutations: {},
   actions: {},
   modules: {}
