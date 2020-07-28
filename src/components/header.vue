@@ -8,8 +8,11 @@
          <slot>
              <div id="slot">
                  <img src="../assets/face/face1.png" alt="头像"/>
-                 <router-link to='login' class="router-link">登陆</router-link>
-                 <div>注销</div>
+                 <div>
+                     <p v-if="user.name">{{user.name}}</p>
+                     <router-link v-else to='login' class="router-link">登陆</router-link>
+                 </div>
+                 <div v-if="user.name" @click="outSign">注销</div>
                  <img src="../assets/btn_cart.png" alt="购物车"/>
              </div>
          </slot>
@@ -21,16 +24,22 @@
      </div>
 </template>
 <script>
+import {mapMutations,mapState} from 'vuex'
 export default {
         components: {},
         props:['items'],
         data() {
-            return {
-
-            };
+            return {};
           },
-        computed: {},
-        methods: {},
+        computed: {
+          ...mapState(['user']),
+        },
+        methods: {
+            ...mapMutations(['deleteUser']),
+            outSign(){
+               this.deleteUser()
+            }
+        },
         mounted() {}
 };
 </script>

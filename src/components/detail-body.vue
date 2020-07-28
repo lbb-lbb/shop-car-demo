@@ -67,59 +67,113 @@
         平整度好，短绒少； 80-100高支双股经纬交织，带来无与伦比的舒适享受；
         而且面料反光效果好，具有漂亮的光泽， 质感上佳，有利于免烫效果的维持！
       </p>
-      <p>价 格：<span><strong><s></s></strong></span>元</p>
-      <p>促 销：<span></span>元</p>
-      <p>颜 色：<span>{{color}}</span></p>
+      <p>价 格：<span>{{user.goods.price}}<strong><s></s></strong></span>元</p>
+      <p>促 销：<span>{{(user.goods.price*user.goods.sale).toFixed(2)}}</span>元</p>
+      <p>颜 色：<span>{{user.goods.color}}</span></p>
       <div id="select-color">
         <img @click="alert()" src="../assets/pro_img/blue.jpg" alt="蓝色" />
         <img @click="alert()" src="../assets/pro_img/yellow.jpg" alt="黄色" />
         <img @click="alert()" src="../assets/pro_img/green.jpg" alt="绿色" />
       </div>
-      <p>尺 寸：<span></span></p>
-      <div id="select-size">
+      <p>尺 寸：<span>{{user.goods.size}}</span></p>
+      <div id="select-size" @click="switchs">
         <button>S</button>
         <button>M</button>
         <button>L</button>
         <button>XL</button>
       </div>
       <p>
-        数 量：<span><input type="number" placeholder="请输入购买数量" /></span>
+        数 量：<span><input type="number" min='1' @click="setClick" placeholder="请输入购买数量" v-model="number"/></span>
       </p>
-      <p>总 计：<span></span>元</p>
+      <p>总 计：<span>{{user.goods.money}}</span>元</p>
       <p>给商品评分</p>
       <div id="select-sore">这是未编辑的打分页面</div>
-      <img src="../assets/btn_cart.png" id="shop-car" />
+      <img @click="setSumbit" src="../assets/btn_cart.png" id="shop-car" />
     </div>
   </div>
 </template>
 <script>
+import{setStorage,getStorage} from '../methods/methods'
+import {mapState,mapMutations} from 'vuex'
 export default {
         components: {},
         data() {
             return {
+              number:null, //过渡商品数量的数据
               num:0,//大图的切换数据
               color:'蓝色', //大图之间颜色的切换
               card:0, //切换产品表格的
             };
           },
-        computed: {},
+        computed: {
+          ...mapState(['user']), 
+        },
         methods: {
-          alert(e){   
+          ...mapMutations(['setNumber','setSize','setColor','setMoney']),
+          alert(e){            //改变大图的函数
             e=event.target;
             this.color=e.alt;
             this.num=0;
+            this.setColor(e.alt) //设置颜色
           },
-          switchs(e){
+          switchs(e){           //事件委托函数
             e=e.target;
-            if(e.tagName.toLocaleLowerCase()==='img'){
-              this.num=parseInt(e.alt)
+            if(e.tagName.toLocaleLowerCase()==='img'){    //委托选择图片的颜色
+              this.num=parseInt(e.alt);
             }
-            if(e.tagName.toLocaleLowerCase()==="button"){
+            if(e.tagName.toLocaleLowerCase()==="button"&&e.name){  //委托选择商品介绍表
               this.card=parseInt(e.name)
             }
+            if(e.tagName.toLocaleLowerCase()==='button'&&!e.name){  //委托选择商品尺寸
+              this.setSize(e.innerText)
+            }
+          },
+          setClick(){                               //改变数量和价格的函数-
+            if(!this.number) this.number=0
+            this.setNumber(parseInt(this.number));
+            this.setMoney();
+          },
+          setSumbit(){                           //提交购物车的函数
+            var data=[];
+            if(!this.user.name){
+              alert('未登陆');
+              return
+            }
+             if(!this.user.goods.color){
+              alert('未选择颜色');
+              return
+            }
+             if(!this.user.goods.size){
+              alert('未选择尺寸');
+              return
+            }
+             if(!this.user.goods.number||this.user.goods.number===0){
+              alert('未选择购买数量');
+              return
+            }
+            if(getStorage(this.user.name+'-data')){               //将购买的商品信息用先存后取成数组方式存储在localStorage中
+               if(getStorage(this.user.name+'-data').length>=2){
+                 for(let i in getStorage(this.user.name+'-data')){
+                   data.push(getStorage(this.user.name+'-data')[i])
+                 }
+               }
+               else{
+               data.push(getStorage(this.user.name+'-data'))
+               }
+               data.push(this.user.goods);
+               setStorage(this.user.name+'-data',data)
+            }
+            else{                                                 
+              setStorage(this.user.name+'-data',this.user.goods);
+              console.log(setStorage(this.user.name+'-data'))
+            }
+            this.setSize(null);
+            this.setColor(null);
+            this.setNumber(null);
+            this.number=null
           }
         },
-        mounted() {}
+        mounted() {},
 };
 </script>
 <style lang="scss" scoped>

@@ -22,6 +22,7 @@
 </div>
 </template>
 <script>
+import {mapMutations} from 'vuex'
 export default {
         components: {},
         data() {
@@ -31,6 +32,7 @@ export default {
           },
         computed: {},
         methods: {
+            ...mapMutations(['setName']),
             switchs(e){
                 e=e.target;
                 if(e.tagName.toLocaleLowerCase()==="button"&&this.type!==e.name){ //登陆和注册的切换逻辑
@@ -60,6 +62,7 @@ export default {
                         else{
                             var account=JSON.parse(localStorage.getItem(inputs[0].value));
                             if(account.password==inputs[1].value){
+                                this.setName(inputs[0].value)
                                 this.$router.push('/')
                             }
                             else{
@@ -68,18 +71,7 @@ export default {
                         }
                     }
                 }
-            },
-           /* test(input,bth){
-                 var names=document.querySelectorAll(name);
-                 if(this.type==='sign'){
-                    for(let i in names){
-                        if(names[i].value===''||names[i].value.indexOf(" ")==-1){
-                           document.querySelector('.'+bth).disabled=true
-                        }
-                    }
-                 }
-            }*/
-
+            }
         },
         mounted() {}
 };
