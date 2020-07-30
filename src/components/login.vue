@@ -43,6 +43,21 @@ export default {
                     var user = {};
                     var inputs=document.querySelectorAll('input')
                     if(this.type==='sign'){
+                        let name =/^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$/;   //使用正则表达式去验证注册的账号密码的准确性
+                        let password = /^[a-zA-Z]\w{5,17}$/;
+                        let email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                        if(!name.test(inputs[0].value)){
+                            alert("用户名格式错误，应为中文、英文、数字但不包括下划线等符号")
+                            return
+                        }
+                    if(!password.test(inputs[1].value)){
+                            alert("密码格式错误，应为以字母开头，长度在6~18之间，只能包含字母、数字和下划线")
+                            return
+                    }
+                    if(!email.test(inputs[3].value)){
+                            alert("邮箱格式错误，应未合格邮箱")
+                            return
+                        }   
                        user.name=inputs[0].value;
                        user.password=inputs[1].value;
                        user.email=inputs[3].value;
@@ -51,6 +66,7 @@ export default {
                        }
                        else{
                            localStorage.setItem(user.name,JSON.stringify(user));
+                           inputs=null
                            alert("注册成功，将为您跳至登陆页面");
                            this.type='login'
                        }
@@ -90,12 +106,15 @@ p{
     margin-top: 100px;
 }
 input{
-    border: none;
+    border: 1px solid green;
     width: 300px;
     height: 40px;
     margin: 0 50px;
     margin-top: 20px;
     background: rgba(68, 125, 199, 0.411);
+}
+input:focus{
+  border: 1px solid red;
 }
 button{
     border: none;

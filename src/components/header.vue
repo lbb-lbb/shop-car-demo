@@ -13,7 +13,7 @@
                      <router-link v-else to='login' class="router-link">登陆</router-link>
                  </div>
                  <div v-if="user.name" @click="outSign">注销</div>
-                 <img src="../assets/btn_cart.png" alt="购物车"/>
+                 <div><router-link to="car">购物车</router-link></div>
              </div>
          </slot>
          <div id="menu">

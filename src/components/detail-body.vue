@@ -170,7 +170,8 @@ export default {
             this.setSize(null);
             this.setColor(null);
             this.setNumber(null);
-            this.number=null
+            this.number=null;
+            this.setMoney()
           }
         },
         mounted() {},

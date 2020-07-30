@@ -8,6 +8,7 @@ export default new Vuex.Store({
     user: {
       name:null,
       goods: {
+        name:'免烫高支棉条纹衬衣',
         price: 299,
         color: null,
         size: null,
