@@ -1,31 +1,17 @@
 # shop-car-demo
-<<<<<<< HEAD
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-=======
 新学vue框架的练手
 
-使用技术栈为 vue2 + vuex + vue-router + flex布局
+1、使用技术栈为 vue2 + vuex + vue-router + flex布局
+ 
+2、项目打开方式为输入 npm run serve 
 
->>>>>>> e55cab9486c491d180531808859b08e4e1e842d6
+3、完成的功能为
+----主页轮播图功能，能够在悬浮时候停止轮播，点击轮播图上面的轮播小按钮能够显示到该图片位置
+
+----登陆注册功能，主要使用浏览器自带的localStorage存取账号密码
+
+----购物数据保存功能，也是通过浏览器中的localStorage存取数据，并且能够在下一次登陆该账号时
+显示在购物车页面
+
+----资源有限，目前仅仅有4个页面，一个主页/Home，一个商品详情/detail，一个购物车/car，一个/login页面
